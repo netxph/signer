@@ -1,0 +1,17 @@
+h1. Signer
+
+.NET Assembly auto-signing tool.
+
+h2. Features
+* Decompiles dll/exe and recompiles them based on the provided key
+* Automatically detects references and signs them as well with similar key
+* Signs everything inside a folder
+
+h2. Usage
+
+bc. signer.exe c:\Assemblies
+
+bc. signer.exe c:\Assemblies --key=key.snk
+
+"More features to come"
+
