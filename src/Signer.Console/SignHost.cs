@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Signer.Console
 {
@@ -18,9 +17,9 @@ namespace Signer.Console
 
         public static void SignPath(SignerSetting setting)
         {
-            if (string.IsNullOrWhiteSpace(setting.Path))
+            if (string.IsNullOrEmpty(setting.KeyFile))
             {
-                setting.Path = generateKey();
+                setting.KeyFile = generateKey();
             }
 
             ProcessContext context = new ProcessContext(setting.Path);
@@ -59,6 +58,7 @@ namespace Signer.Console
             }
             
             string ilPath = string.Format(@"{0}\msil\{1}.il", path, file.ID);
+            string resPath = string.Format(@"{0}\msil\{1}.res", path, file.ID);
             string extension = Path.GetExtension(file.FullName).Substring(1);
 
             Process process = new Process();
@@ -66,7 +66,7 @@ namespace Signer.Console
             //process.StartInfo.UseShellExecute = false;
             //process.StartInfo.RedirectStandardOutput = true;
 
-            process.StartInfo.Arguments = string.Format(@"/{0} /key=key.snk {1} /output={2}\out\{3}", extension, ilPath, path, Path.GetFileName(file.FullName));
+            process.StartInfo.Arguments = string.Format(@"/{0} /resource={1} /key=key.snk {2} /output={3}\out\{4}", extension, resPath, ilPath, path, Path.GetFileName(file.FullName));
             process.Start();
 
             process.WaitForExit();
@@ -122,7 +122,7 @@ namespace Signer.Console
                 var refFile = ProcessContext.CurrentContext.Files.FirstOrDefault(f => f.ID == reference);
                 var version = refFile.Version.Replace('.', ':');
 
-                if (!string.IsNullOrWhiteSpace(match))
+                if (!string.IsNullOrEmpty(match))
                 {
                     match = match + string.Format(".publickeytoken = ({0} )\r\n  .ver {1}\r\n", publicKey, version);
                     ilText = regex.Replace(ilText, match);

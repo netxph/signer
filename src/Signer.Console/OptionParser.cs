@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Signer.Console
 {
@@ -27,7 +26,7 @@ namespace Signer.Console
             var optionSet = CreateOptions(setting);
             var extra = optionSet.Parse(args);
 
-            setting.Path = string.Join(" ", extra);
+            setting.Path = string.Join(" ", extra.ToArray());
 
             return setting;
         }

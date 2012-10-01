@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Signer.Console
 {
@@ -22,7 +21,8 @@ namespace Signer.Console
         {
             FullName = fullName;
             ID = Path.GetFileNameWithoutExtension(fullName);
-            Version = FileVersionInfo.GetVersionInfo(fullName).ProductVersion;
+
+            Version = FileVersionInfo.GetVersionInfo(fullName).FileVersion;
 
             Initialize();
         }
